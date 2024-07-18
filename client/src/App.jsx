@@ -104,8 +104,8 @@ function App() {
       <div className="phonebook-list">
         {phonebook.map((val, key) => (
           <div key={key} className="phone">
-            <h1>{val.name}</h1>
-            <h1>{val.phone}</h1>
+            <h1>Name: {val.name}</h1>
+            <h1>Phone Number: {val.phone}</h1>
             <input
               type="number"
               placeholder="Update Phone..."
