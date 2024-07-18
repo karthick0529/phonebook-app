@@ -15,7 +15,6 @@ function Home() {
       // Clear the input fields after adding the number
       setName("");
       setPhone("");
-      // TODO: Handle refresh or update of phonebook list (if needed)
     } catch (error) {
       console.error("Error adding new number:", error);
     }
