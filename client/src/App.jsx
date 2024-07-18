@@ -61,12 +61,14 @@ function App() {
       <button onClick={addNewNumber}>Add Number</button>
 
       <h1>PhoneBook List</h1>
-      {phonebook.map((val, key) => (
-        <div key={key} className="phone">
-          <h1>{val.name}</h1>
-          <h1>{val.phone}</h1>
-        </div>
-      ))}
+      <div className="phonebook-list">
+        {phonebook.map((val, key) => (
+          <div key={key} className="phone">
+            <h1>{val.name}</h1>
+            <h1>{val.phone}</h1>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
