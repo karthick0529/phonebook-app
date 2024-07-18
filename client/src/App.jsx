@@ -7,6 +7,12 @@ function App() {
   const [phone, setPhone] = useState("");
   const [phonebook, setPhonebook] = useState([]);
 
+  // State to hold individual new phone numbers for each person
+  const [personToUpdate, setPersonToUpdate] = useState({
+    id: null,
+    newPhone: ""
+  });
+
   const addNewNumber = async () => {
     try {
       await axios.post("http://localhost:5000/api/add-phone", {
@@ -40,6 +46,40 @@ function App() {
     fetchPhonebook();
   }, []);
 
+  const updatePhone = async () => {
+    const { id, newPhone } = personToUpdate;
+    try {
+      await axios.patch(`http://localhost:5000/api/update-phone/${id}`, { phone: newPhone });
+      // After successful update, refresh the phonebook list
+      fetchPhonebook();
+      // Reset personToUpdate state after update
+      setPersonToUpdate({
+        id: null,
+        newPhone: ""
+      });
+    } catch (error) {
+      console.error('Error updating phone number:', error);
+    }
+  }
+
+  const handleUpdateInputChange = (id, newPhone) => {
+    // Update the state for the person being edited
+    setPersonToUpdate({
+      id,
+      newPhone
+    });
+  }
+
+  const deletePhone = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/delete-phone/${id}`);
+      // After successful deletion, refresh the phonebook list
+      fetchPhonebook();
+    } catch (error) {
+      console.error('Error deleting phone number:', error);
+    }
+  }
+
   return (
     <div className="container">
       <label htmlFor="name">Name</label>
@@ -66,6 +106,25 @@ function App() {
           <div key={key} className="phone">
             <h1>{val.name}</h1>
             <h1>{val.phone}</h1>
+            <input
+              type="number"
+              placeholder="Update Phone..."
+              value={val._id === personToUpdate.id ? personToUpdate.newPhone : ""}
+              onChange={(e) => handleUpdateInputChange(val._id, e.target.value)}
+            />
+            <button
+              className="update-btn"
+              onClick={updatePhone}
+              disabled={!personToUpdate.id} // Disable update button if no person is selected
+            >
+              Update
+            </button>
+            <button
+              className="delete-btn"
+              onClick={() => deletePhone(val._id)}
+            >
+              Delete
+            </button>
           </div>
         ))}
       </div>
