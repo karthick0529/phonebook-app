@@ -16,13 +16,13 @@ router.post('/add-phone', async (req, res) => {
 });
 
 router.get('/get-phone', async (req, res) => {
-    try {
-      const phoneNumbers = await phonebook.find({});
-      res.status(201).send(phoneNumbers);
-    } catch (error) {
-      res.status(400).send({ message: error.message });
-    }
-  });
+  try {
+    const phoneNumbers = await phonebook.find({});
+    res.status(200).send({ data: { phoneNumbers } });
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+});
 
 router.patch('/update-phone/:id', async(req,res) => {
     try {
